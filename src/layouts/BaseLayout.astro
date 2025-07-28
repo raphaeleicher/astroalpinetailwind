@@ -11,9 +11,9 @@ import "@/styles/global.css";
   </head>
   <body class="min-h-screen flex flex-col pt-16">
     <header
-      class="fixed top-0 navbar bg-indigo-600 text-slate-50 max-h-16 shadow-sm px-6 justify-center"
+      class="fixed top-0 navbar bg-indigo-600 text-slate-50 max-h-16 shadow-sm justify-center z-99"
     >
-      <div class="navbar max-w-4xl min-w-4xl">
+      <div class="navbar max-w-4xl min-w-4xl px-6">
         <div class="navbar-start">
           <h1>My Website</h1>
         </div>
@@ -28,14 +28,14 @@ import "@/styles/global.css";
     </header>
     <div class="flex flex-grow justify-center">
       <div class="flex max-w-4xl min-w-4xl">
-        <aside class="w-64 min-w-32 bg-base-300 p-6">
+        <aside class="w-48 min-w-32 bg-base-300 p-6">
           <ul class="menu menu-vertical">
             <li><a href="/">Page 1</a></li>
             <li><a href="/page2.html">Page 2</a></li>
             <li><a href="#">Menu 3</a></li>
           </ul>
         </aside>
-        <main class="flex-grow p-6">
+        <main class="flex-1 p-6">
           <slot />
         </main>
       </div>
