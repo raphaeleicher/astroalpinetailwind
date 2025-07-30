@@ -3,20 +3,20 @@
 ---
 
 <div
-  class="relative z-0 inline-grid grid-cols-3 gap-0.5 rounded-full bg-gray-950/5 p-0.75 text-gray-950 dark:bg-white/10 dark:text-white"
-  id="headlessui-radiogroup-«R65elb»"
+  class="relative z-0 inline-grid grid-cols-3 gap-0.5 bg-base-300/50 rounded-full"
+  id="theme-toggle"
   role="radiogroup"
   x-data="themeToggle"
 >
   <span
-    class="rounded-full p-1.5 *:size-7 data-checked:bg-white data-checked:ring data-checked:inset-ring data-checked:ring-gray-950/10 data-checked:inset-ring-white/10 sm:p-0 dark:data-checked:bg-gray-700 dark:data-checked:text-white dark:data-checked:ring-transparent"
+    class="text-base-content/75 rounded-full p-1.5 *:size-7 data-checked:bg-base-300/66 data-checked:ring data-checked:inset-ring data-checked:ring-base-300/10 data-current:inset-ring-base-300/10 sm:p-0"
     aria-label="System theme"
-    id="headlessui-radio-«R6m5elb»"
+    id="theme-toggle-radio-system"
     role="radio"
     aria-checked="false"
     tabindex="0"
-    data-headlessui-state=""
-    data-checked=""
+    data-theme-toggle-name="system"
+    x-bind:data-theme-toggle-state="isActive($el) ? 'checked' : ''"
     x-on:click="setTheme($el, 'system')"
   >
     <svg viewBox="0 0 28 28" fill="none">
@@ -31,13 +31,14 @@
     >
   </span>
   <span
-    class="rounded-full p-1.5 *:size-7 data-checked:bg-white data-checked:ring data-checked:inset-ring data-checked:ring-gray-950/10 data-checked:inset-ring-white/10 sm:p-0 dark:data-checked:bg-gray-700 dark:data-checked:text-white dark:data-checked:ring-transparent"
+    class="text-base-content/75 rounded-full p-1.5 *:size-7 data-checked:bg-base-300/66 data-checked:ring data-checked:inset-ring data-checked:ring-base-300/10 data-current:inset-ring-base-300/10 sm:p-0"
     aria-label="Light theme"
-    id="headlessui-radio-«Ram5elb»"
+    id="theme-toggle-radio-light"
     role="radio"
-    aria-checked="true"
+    aria-checked="false"
     tabindex="-1"
-    data-headlessui-state="checked"
+    data-theme-toggle-name="light"
+    x-bind:data-theme-toggle-state="isActive($el) ? 'checked' : ''"
     x-on:click="setTheme($el, 'light')"
   >
     <svg viewBox="0 0 28 28" fill="none">
@@ -70,13 +71,14 @@
     </svg>
   </span>
   <span
-    class="rounded-full p-1.5 *:size-7 data-checked:bg-white data-checked:ring data-checked:inset-ring data-checked:ring-gray-950/10 data-checked:inset-ring-white/10 sm:p-0 dark:data-checked:bg-gray-700 dark:data-checked:text-white dark:data-checked:ring-transparent"
+    class="text-base-content/75 rounded-full p-1.5 *:size-7 data-checked:bg-base-300/66 data-checked:ring data-checked:inset-ring data-checked:ring-base-300/10 data-current:inset-ring-base-300/10 sm:p-0"
     aria-label="Dark theme"
-    id="headlessui-radio-«Rem5elb»"
+    id="theme-toggle-radio-dark"
     role="radio"
     aria-checked="false"
     tabindex="-1"
-    data-headlessui-state=""
+    data-theme-toggle-name="dark"
+    x-bind:data-theme-toggle-state="isActive($el) ? 'checked' : ''"
     x-on:click="setTheme($el, 'dark')"
   >
     <svg viewBox="0 0 28 28" fill="none">
@@ -105,14 +107,30 @@
     Alpine.data("themeToggle", () => ({
       allowedThemes: ["light", "dark"],
       htmlTag: document.documentElement,
+      activeTheme: localStorage.getItem("theme") || "system",
 
       setTheme(el: any, theme: string) {
+        document
+          .querySelectorAll("[data-theme-toggle-state]")
+          .forEach((element) => {
+            element.removeAttribute("data-checked");
+            element.setAttribute("aria-checked", "false");
+          });
+        el.setAttribute("data-checked", "true");
         if (this.allowedThemes.includes(theme)) {
           localStorage.setItem("theme", theme);
           this.htmlTag.setAttribute("data-theme", theme);
         } else {
-          localStorage.setItem("theme", theme);
-          this.htmlTag.removeAttribute("data-theme");
+          localStorage.setItem("theme", "system");
+          this.htmlTag.setAttribute("data-theme", "system");
+        }
+      },
+      isActive(el: any) {
+        if (el.getAttribute("data-theme-toggle-name") === this.activeTheme) {
+          console.log(`${el.id} is true`);
+          el.setAttribute("data-checked", "checked");
+          el.setAttribute("aria-checked", "true");
+          return true;
         }
       },
     }));
