@@ -5,7 +5,7 @@ import SideBar from "@/components/SideBar.astro";
 import Footer from "@/components/Footer.astro";
 ---
 
-<html lang="en" x-bind:data-theme="getTheme" x-data="getTheme">
+<html lang="en" x-data="" x-bind:data-theme="localStorage.getItem('theme')">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
@@ -25,14 +25,3 @@ import Footer from "@/components/Footer.astro";
     <Footer />
   </body>
 </html>
-
-<script>
-  document.addEventListener("alpine:init", () => {
-    Alpine.data("getTheme", () => ({
-      _theme: localStorage.getItem("data-theme"),
-      getTheme() {
-        return this._theme;
-      },
-    }));
-  });
-</script>
