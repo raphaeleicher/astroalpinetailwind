@@ -1,9 +1,9 @@
 ---
-
+import ThemeToggle from "@/components/ThemeToggle.astro";
 ---
 
 <header
-  class="fixed top-0 navbar bg-indigo-600 text-slate-50 max-h-16 shadow-sm justify-center z-99"
+  class="fixed top-0 navbar bg-yellow-200 text-slate-500 max-h-16 shadow-sm justify-center z-99"
 >
   <div class="navbar max-w-4xl min-w-4xl px-6">
     <div class="navbar-start">
@@ -15,6 +15,7 @@
         <li><a href="/page2.html">Page 2</a></li>
         <li><a href="#">Menu 3</a></li>
       </ul>
+      <ThemeToggle />
     </div>
   </div>
 </header>
