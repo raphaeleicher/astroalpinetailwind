@@ -6,6 +6,19 @@
 /* DaisyUI */
 @plugin "daisyui";
 
+@plugin "daisyui/theme" {
+  name: "light";
+  default: true;
+  --color-primary: var(--color-amber-300);
+  --color-primary-content: var(--color-stone-950);
+}
+
+@plugin "daisyui/theme" {
+  name: "dark";
+  prefersdark: true;
+  --color-primary: var(--color-purple-950);
+}
+
 @theme {
   --font-sans: "Roboto Slab", ui-sans-serif, system-ui, sans-serif,
     "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
