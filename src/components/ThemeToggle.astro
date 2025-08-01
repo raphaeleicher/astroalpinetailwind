@@ -8,16 +8,20 @@
   role="radiogroup"
   x-data="themeToggle"
 >
-  <span
+  <input
+    type="radio"
+    id="input-radio-theme-default"
+    name="theme-buttons"
+    class="theme-controller hidden peer"
+    aria-label="Default"
+    value="default"
+    required
+  />
+  <label
+    for="input-radio-theme-default"
     class="text-base-content/75 rounded-full p-1.5 *:size-7 data-checked:bg-base-300/66 data-checked:ring data-checked:inset-ring data-checked:ring-base-300/10 data-current:inset-ring-base-300/10 sm:p-0"
-    aria-label="System theme"
-    id="theme-toggle-radio-system"
-    role="radio"
-    aria-checked="false"
-    tabindex="0"
-    data-theme-toggle-name="system"
     x-bind:data-theme-toggle-state="isActive($el) ? 'checked' : ''"
-    x-on:click="setTheme($el, 'system')"
+    x-on:click="setTheme($el, 'default')"
   >
     <svg viewBox="0 0 28 28" fill="none">
       <path
@@ -29,15 +33,19 @@
         stroke="currentColor"
         stroke-linecap="round"></path></svg
     >
-  </span>
-  <span
+  </label>
+  <input
+    type="radio"
+    id="input-radio-theme-light"
+    name="theme-buttons"
+    class="theme-controller hidden peer"
+    aria-label="Light"
+    value="light"
+    required
+  />
+  <label
+    for="input-radio-theme-light"
     class="text-base-content/75 rounded-full p-1.5 *:size-7 data-checked:bg-base-300/66 data-checked:ring data-checked:inset-ring data-checked:ring-base-300/10 data-current:inset-ring-base-300/10 sm:p-0"
-    aria-label="Light theme"
-    id="theme-toggle-radio-light"
-    role="radio"
-    aria-checked="false"
-    tabindex="-1"
-    data-theme-toggle-name="light"
     x-bind:data-theme-toggle-state="isActive($el) ? 'checked' : ''"
     x-on:click="setTheme($el, 'light')"
   >
@@ -69,15 +77,19 @@
       >
       </path>
     </svg>
-  </span>
-  <span
+  </label>
+  <input
+    type="radio"
+    id="input-radio-theme-dark"
+    name="theme-buttons"
+    class="theme-controller hidden peer"
+    aria-label="Dark"
+    value="dark"
+    required
+  />
+  <label
+    for="input-radio-theme-dark"
     class="text-base-content/75 rounded-full p-1.5 *:size-7 data-checked:bg-base-300/66 data-checked:ring data-checked:inset-ring data-checked:ring-base-300/10 data-current:inset-ring-base-300/10 sm:p-0"
-    aria-label="Dark theme"
-    id="theme-toggle-radio-dark"
-    role="radio"
-    aria-checked="false"
-    tabindex="-1"
-    data-theme-toggle-name="dark"
     x-bind:data-theme-toggle-state="isActive($el) ? 'checked' : ''"
     x-on:click="setTheme($el, 'dark')"
   >
@@ -99,37 +111,35 @@
       >
       </path>
     </svg>
-  </span>
+  </label>
 </div>
 
 <script>
   document.addEventListener("alpine:init", () => {
     Alpine.data("themeToggle", () => ({
-      allowedThemes: ["light", "dark"],
-      htmlTag: document.documentElement,
-      activeTheme: localStorage.getItem("theme") || "system",
+      allowedThemes: ["default", "light", "dark"],
+      activeTheme: localStorage.getItem("myTheme") || "default",
 
       setTheme(el: any, theme: string) {
         document
           .querySelectorAll("[data-theme-toggle-state]")
           .forEach((element) => {
             element.removeAttribute("data-checked");
-            element.setAttribute("aria-checked", "false");
+            element.setAttribute("data-theme-toggle-state", "");
           });
         el.setAttribute("data-checked", "true");
+        el.setAttribute("data-theme-toggle-state", "checked");
         if (this.allowedThemes.includes(theme)) {
-          localStorage.setItem("theme", theme);
-          this.htmlTag.setAttribute("data-theme", theme);
+          localStorage.setItem("myTheme", theme);
         } else {
-          localStorage.setItem("theme", "system");
-          this.htmlTag.setAttribute("data-theme", "system");
+          localStorage.setItem("myTheme", "default");
         }
       },
       isActive(el: any) {
-        if (el.getAttribute("data-theme-toggle-name") === this.activeTheme) {
-          console.log(`${el.id} is true`);
-          el.setAttribute("data-checked", "checked");
-          el.setAttribute("aria-checked", "true");
+        var elPrevious = el.previousElementSibling;
+        if (elPrevious.value === this.activeTheme) {
+          el.setAttribute("data-checked", true);
+          elPrevious.setAttribute("checked", true);
           return true;
         }
       },
