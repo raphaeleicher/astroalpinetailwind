@@ -11,12 +11,16 @@
   default: true;
   --color-primary: var(--color-amber-300);
   --color-primary-content: var(--color-stone-950);
+  --theme-toggle-bg: var(--color-neutral-100);
+  --theme-toggle-hover-bg: var(--color-neutral-200);
 }
 
 @plugin "daisyui/theme" {
   name: "dark";
   prefersdark: true;
   --color-primary: var(--color-purple-950);
+  --theme-toggle-bg: var(--color-neutral-900);
+  --theme-toggle-hover-bg: var(--color-neutral-700);
 }
 
 @theme {
@@ -27,4 +31,13 @@
   --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
     "Liberation Mono", "Courier New", monospace;
   --font-roboto: "Roboto Slab", serif;
+}
+
+div.theme-toggle-bg {
+  background-color: var(--theme-toggle-bg);
+}
+
+label[data-theme-toggle-state]:hover,
+label[data-theme-toggle-state="checked"] {
+  background-color: var(--theme-toggle-hover-bg);
 }
